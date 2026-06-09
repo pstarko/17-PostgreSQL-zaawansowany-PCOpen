@@ -1,4 +1,4 @@
-# 🐘 - PostgreSQL-zaawansowany-PCOpen – Materiały szkoleniowe
+# 🐘 17 - PostgreSQL-zaawansowany-PCOpen – Materiały szkoleniowe
 Witaj! Tu znajdziesz wszystkie materiały do szkolenia **PostgreSQL-zaawansowany**.
 
 ---
