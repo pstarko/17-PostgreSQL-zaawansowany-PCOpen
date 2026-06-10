@@ -5,3 +5,27 @@ select
 	last_name,
 	(salary + (salary * coalesce(commission_pct, 0))) * 12 roczna_placa
 	from employees
+
+--2.Wyświetl wszystkie informacje o departamentach sortując wynik według nazw (27 wierszy)
+
+select
+	*
+	from departments
+order by department_name
+	
+	
+-- 3. Wyświetl listę job_id bez duplikatów(z tabeli employees) bez departamentu 20 i 50 (14 wierszy)
+
+select
+	distinct job_id
+	from employees
+where
+	department_id not in (20, 50)
+	
+select
+	distinct job_id
+	from employees
+where
+	department_id <> 20
+	and department_id <> 50
+
