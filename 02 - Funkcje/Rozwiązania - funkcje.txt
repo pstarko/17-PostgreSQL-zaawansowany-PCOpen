@@ -27,3 +27,31 @@ select
 	(salary + (salary * coalesce(commission_pct,0))) * 1.15 more_money
 	from employees
 order by more_money desc
+
+
+--4.Policz ile dni jest zatrudniony każdy pracownik. Wyróżnij odpowiednim komentarzem tych, 
+--którzy pracują ponad 3500 dni (Wynik na dzień 24-04-2025).
+
+select
+	last_name,
+	now()::date teraz,
+	current_date - hire_date różnica,
+	case 
+		when now()::date - hire_date > 3500 then 'Pracuje więcej niż 3,5k'
+		else '----'
+	end opis_1,	
+	'2025-04-24'::date data,
+	'2025-04-24'::date - hire_date różnica_2,
+	case 
+		when '2025-04-24'::date - hire_date > 3500 then 'Pracuje więcej niż 3,5k'
+		else '----'
+	end opis_1
+	from employees
+
+--5. Rozwiąż wyrażenie algebraiczne: Resztę z dzielenia 134 przez 8 przemnóż przez pierwiastek z 81. 
+-- Podziel to wszystko przez 244 i podnieś do 4 potęgi. 
+--Do wyniku dodaj 0.0097. Zaogrąglij wszystko do 4 miejsc po przecinku zgodnie z zasadami matematyki.
+
+
+select
+round((power(134%8 * sqrt(81) / 244, 4) + 0.0097)::numeric, 4)
