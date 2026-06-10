@@ -1,0 +1,186 @@
+--instrukcje warunkowe
+
+SELECT
+	last_name,
+	salary,
+	CASE
+		WHEN salary > 10000 THEN 'OK'
+		ELSE '---'
+		END AS warunek
+FROM
+	employees
+
+SELECT
+	last_name,
+	salary,
+	CASE
+		WHEN salary > 20000 THEN '>20k'
+		WHEN salary > 10000 THEN '>10k'
+		ELSE '---'
+		END AS warunek
+FROM
+	employees	
+	
+-- funkcje ciągów znaków
+	
+SELECT
+	last_name,
+	lower(last_name) lower,
+	upper(last_name) upper,
+	job_id,
+	InitCap(job_id) ic 
+FROM
+	employees
+
+	
+SELECT
+	last_name,
+	substring(last_name, 1, 2) substr,
+	substring(last_name, 2, 3) substr2
+FROM
+   employees
+	
+SELECT
+	last_name,
+	substring(last_name, -2, 2) substr
+FROM
+   employees
+where
+	substring(last_name, -2, 2) = ''
+
+	
+SELECT
+	last_name,
+	replace(last_name, 'in','XYZ') replace1,
+	replace(last_name, 'a','WWW') replace2,
+	translate(last_name, 'ig', 'XY') translate1
+FROM
+	employees
+	
+	
+SELECT
+	last_name,
+	replace(
+		replace(last_name, 'i','XYZ') 
+							, 'n','XYZ') replace1	
+FROM
+	employees	
+
+SELECT
+	last_name,
+	REVERSE(last_name) reverse,
+	RIGHT(last_name, 2) r,
+	LEFT(last_name, 2) l
+FROM
+	employees
+
+SELECT 
+	'spacja ' ze_spacja,
+	trim('spacja ') t,
+	trim(both 'x' from 'xTomxx'),
+	translate('xyz', 'x','')
+
+SELECT 
+	last_name ,
+	rtrim(last_name,'l') rt,
+	ltrim(last_name,'A') lt,
+	lpad(last_name,10,'X'),
+	rpad(last_name,10,'X')
+FROM employees e
+order by last_name
+	
+select
+	last_name,
+	position('a' in last_name),
+	position('g' in last_name) 
+FROM employees 
+
+
+SELECT
+	last_name,
+	length(last_name) length 
+FROM
+	employees
+
+select 
+	first_name ,
+	last_name ,
+	concat(first_name, ' ', last_name) konkatenacja1,
+	first_name || ' ' || last_name konkatenacja2
+from employees e 
+
+--liczbowe 
+
+SELECT
+	round(3.1234, 2) round,
+	floor(3.1234) floor,
+	ceiling(3.1234) ceil,
+	10%7 modulo,
+	power(8, 2) potega,
+	sqrt(81) pierwiastek
+
+	
+--data i czas
+SELECT
+	hire_date,
+	DATE_PART('year',hire_date) rok,
+	DATE_PART('month',hire_date) miesiac,
+	DATE_PART('day',hire_date) dzien
+from employees
+
+SELECT
+	hire_date,
+	age(hire_date)
+from employees
+
+SELECT
+	hire_date,
+	hire_date + interval '1 year' dodany_rok,
+	hire_date + interval '1 month' dodany_miesiac,
+	hire_date + interval '1 day' dodany_dzien
+from employees
+
+select
+	hire_date,
+	to_char(hire_date, 'DD-Month-YYYY') format1,
+	to_char(hire_date, 'Day, DD-MM-YY') format2
+from employees e 
+
+--https://www.postgresql.org/docs/15/functions-formatting.html
+
+select current_timestamp, now(), current_date
+
+-- konwersja
+
+select '2026-06-10'::date + 1
+
+
+select '1'::int + '1'
+
+select
+	hire_date + 1
+	from employees
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+	
+	
+	
+	
+
+
+	
+	
