@@ -1,0 +1,7 @@
+--1. Wyświetl nazwiska i roczne dochody pracowników(wraz z commission_pct) (107 wierszy)
+
+select
+	first_name,
+	last_name,
+	(salary + (salary * coalesce(commission_pct, 0))) * 12 roczna_placa
+	from employees
