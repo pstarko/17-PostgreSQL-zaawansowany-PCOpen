@@ -17,3 +17,13 @@ select
 								, 'm', 'X')
 									, 'k', 'X') replace_
 	from employees
+
+
+--3. Dodaj podwyżkę 15% dla każdego pracownika. Uwzględnij również dodatek(commission_pct). 
+-- Posortuj malejąco po podniesionej płacy.
+
+select
+	last_name,
+	(salary + (salary * coalesce(commission_pct,0))) * 1.15 more_money
+	from employees
+order by more_money desc
