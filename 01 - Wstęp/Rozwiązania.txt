@@ -57,6 +57,27 @@ where
 	department_id in (30, 40)
 order by salary
 
+--6.Pokaż nazwiska i płace podstawowe(salary) tych, których płace podstawowe nie mieszczą się w przedziale 8000 do 15000 (74 wiersze)
+
+select 
+	last_name,
+	salary
+	from employees
+where
+	salary not between 8000 and 15000
+
+
+
+-- 7.wyświetl nazwisko, etat(job_id) i numer departamentu tych których nazwisko kończy się na „an” (4 wiersze)
+
+select 
+	last_name,
+	job_id,
+	department_id
+	from employees
+where
+	last_name like '%an'
+
 
 
 
