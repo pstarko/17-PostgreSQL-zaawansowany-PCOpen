@@ -5,3 +5,15 @@ select
 	job_id,
 	left(job_id,2) || employee_id code
 	from employees
+
+--2. Wydaj wojnę literom l, m oraz k i zamień je na X. Użyj funkcji REPLACE i TRANSLATE.
+
+select
+	last_name,
+	translate(last_name, 'lmk','XXX') translate_,
+	replace(
+		replace(
+			replace(last_name, 'l', 'X')
+								, 'm', 'X')
+									, 'k', 'X') replace_
+	from employees
