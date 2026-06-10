@@ -29,3 +29,35 @@ where
 	department_id <> 20
 	and department_id <> 50
 
+
+--4.Wyświetl employee_id, first_name, last_name, email i phone_number pracowników na etatach AC_ACCOUNT 
+--i FI_ACCOUNT i posortuj ich według daty zatrudnienia(malejąco) (6 wierszy)
+
+select 
+	employee_id, 
+	first_name, 
+	last_name, 
+	email,
+	phone_number
+	from employees
+where
+	job_id in ('AC_ACCOUNT', 'FI_ACCOUNT')
+order by hire_date desc
+	
+
+
+-- 5.wybierz tylko employee_id, last_name i job_id z departamentów 30,40 w kolejności rosnących zarobków (7 wierszy)
+
+select 
+	employee_id, 
+	last_name, 
+	job_id
+	from employees
+where
+	department_id in (30, 40)
+order by salary
+
+
+
+
+
