@@ -26,3 +26,39 @@ group by
 	rollup (department_id)
 having 
 	sum(salary) > 8000
+
+
+/*
+3. Dla każdego departamentu o nr pomiędzy 10 i 50 oraz etatu pokaż sumę płacy podstawowej wraz z podsumowaniami dla każdej podgrupy. 
+Usuń podsumowanie dla całości(23 wiersze)
+*/
+
+select 
+    department_id,
+    job_id,
+    sum(salary) sum
+    from employees
+where department_id between 10 and 50
+group by cube (department_id, job_id)
+having grouping(department_id) + grouping(job_id) <> 2
+
+/*
+ * 4. Dla departamentu 90,100,110 i każdego etatu (poza AD_ASST,HR_REP,MK_MAN) pokaż średnią płacę z podsumowaniami. 
+ * Podsumowanie pokaż na końcu(16 wierszy)
+ */
+	
+select
+	department_id,
+	job_id,
+	sum(salary)	
+	from employees
+where
+	job_id not in ('AD_ASST','HR_REP','MK_MAN')
+	and department_id in (90,100,110)
+group by cube (department_id, job_id)
+order by 
+	grouping(department_id),
+	grouping(job_id)
+	
+	
+
