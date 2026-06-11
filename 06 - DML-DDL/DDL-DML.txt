@@ -1,0 +1,58 @@
+--DDL, DML, DCL
+
+
+CREATE TABLE DRUZYNA(
+   ID_DRUZYNY      INT PRIMARY KEY,
+   NAZWA           CHAR(50) NOT NULL
+);
+
+
+CREATE TABLE ZAWODNICY(
+   ID_ZAWODNIKA INT PRIMARY KEY,
+   NAZWISKO           CHAR(50) NOT NULL,
+   DRUZYNA_ID         INT      references DRUZYNA(ID_DRUZYNY)
+);
+
+
+insert into zawodnicy values (1, 'Alex', 1)  
+
+insert into druzyna values (1, 'FC Bat')
+
+select * from druzyna d 
+
+select * from zawodnicy z 
+
+delete from druzyna where id_druzyny = 1
+
+--CHECK
+CREATE TABLE FIRMA(
+   ID INT PRIMARY KEY,
+   NAZWA           TEXT    NOT NULL,
+   PLACA         INT    CHECK(PLACA > 0)
+);
+
+insert into firma values (1, 'a', 675)
+
+update firma set placa = 999 where id = 1
+
+select * from firma
+
+begin
+	insert into firma values (2, 'c', 675)
+	select * from firma
+	delete from firma
+rollback
+
+commit
+
+
+begin
+	select * from firma
+	insert into firma values (3, 'd', 675)
+	savepoint firma_3
+	delete from firma where id = 1
+	savepoint firma_delete
+	update firma set placa = 999 where id = 3
+	savepoint firma_update
+	delete from firma
+rollback to firma_delete
