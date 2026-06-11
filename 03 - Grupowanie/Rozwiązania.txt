@@ -20,3 +20,34 @@ group by
 	job_id
 order by
 	srednia desc
+
+
+
+/*
+3. Wyświetl liczbę IT_PROG zatrudnionych w firmie (1 wiersz)
+*/
+select
+	count(employee_id)
+	from employees
+where
+	job_id = 'IT_PROG'
+
+/*
+4.
+Znajdź łączne miesięczne wynagrodzenie dla każdego działu. Nie zapomnij o dodatkowych zarobkach. 
+W wyniku usuń wartość null i dane posortuj w taki sposób by zespół 110 był pierwszy, a reszta już zgodnie z wartością indeksu(11 wierszy)
+*/
+select
+	department_id,
+	sum(salary + (salary * coalesce(commission_pct,0)))
+	from employees
+where
+	department_id is not null
+group by
+	department_id
+order by
+	case
+		when department_id = 110 then 1
+		else department_id
+	end
+	
