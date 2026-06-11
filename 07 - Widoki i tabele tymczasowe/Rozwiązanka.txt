@@ -1,0 +1,28 @@
+select * from customers
+
+select * from orders
+
+--1. Prosty widok łączący klientów i zamówienia:
+
+CREATE VIEW customer_orders 
+AS  
+SELECT c.name, c.city, o.order_id, o.total_amount  
+FROM customers c  
+JOIN orders o ON c.customer_id = o.customer_id;  
+
+--2.Widok filtrujący zamówienia > 200 zł
+CREATE VIEW orders_above_200 
+AS
+SELECT * FROM orders WHERE total_amount > 200;
+
+INSERT INTO orders_above_200 (customer_id, order_date, total_amount) VALUES  (1, '2026-09-01', 120)
+
+
+
+--3. Widok „maskujący” dane (np. ukrywający kwotę sprzedaży):
+CREATE VIEW customer_orders_masked AS  
+SELECT c.name, o.order_id, '[ukryto]' AS total_amount  
+FROM customers c  
+JOIN orders o ON c.customer_id = o.customer_id;  
+
+select * from customer_orders_masked
