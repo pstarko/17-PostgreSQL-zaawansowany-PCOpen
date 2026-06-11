@@ -51,3 +51,29 @@ order by
 		else department_id
 	end
 	
+
+/*
+5. Dla każdego szefa wyświetl pensję najgorzej zarabiającego podwładnego. Pomiń pracowników zarabiających mniej niż 5000 i nie mających szefa (12 wierszy).
+*/
+select
+	manager_id,
+	min(salary)
+	from employees
+where
+	salary > 5000
+	and manager_id is not null
+group by
+	manager_id
+
+
+/*
+6. Sprawdź, ilu mamy pracowników z literą O i R w nazwisku. Napisz zapytanie odporne na wielkość liter w tabeli (1 wiersz)
+*/
+select
+	count(employee_id)
+	from employees
+where
+	upper(last_name) like '%O%'
+	and upper(last_name) like '%R%'
+
+	
