@@ -73,3 +73,43 @@ select
 								end) ||
 	reverse(	right(last_name, 3)) code
 	from employees
+
+
+-- 6. Wiedząc, że do premii trzeba pracować 10 lat pokaż dane: datę zatrudnienia, ile lat
+-- pracy, ile lat do emerytury oraz informacje o tym, że ktoś ma premię. Stan na 24-04-
+-- 2025.
+
+
+select 
+	last_name,
+	hire_date,
+	age('2025-04-24', hire_date),
+	date_part('year', age('2025-04-24', hire_date)) ilosc_lat,
+	10 - date_part('year', age('2025-04-24', hire_date)) ile_do_premii,
+	case 
+		when 10 - date_part('year', age('2025-04-24', hire_date)) <0 then 'premiowany'
+		when 10 - date_part('year', age('2025-04-24', hire_date)) = 0 then 'premia w tym roku'
+		else 'jeszcze ' || 10 - date_part('year', age('2025-04-24', hire_date)) || 'lat/a'
+	end result	
+	from employees
+	
+
+	
+create view query_1 as
+select 
+	last_name,
+	hire_date,
+	date_part('year', age('2025-04-24', hire_date)) ilosc_lat,
+	10 - date_part('year', age('2025-04-24', hire_date)) ile_do_premii
+	from employees
+	
+
+select 
+	q.*,
+	case 
+		when ile_do_premii <0 then 'premiowany'
+		when ile_do_premii = 0 then 'premia w tym roku'
+		else 'jeszcze ' || ile_do_premii || 'lat/a'
+	end result	
+	from query_1	 q
+	
