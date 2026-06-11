@@ -1,0 +1,12 @@
+/*
+1. Pokaż imię, nazwisko, numer działu i stanowisko dla wszystkich pracowników. 
+Nie używaj konstrukcji „where department_id is null”, rozwiąż problem połączeniami tabel (106 wierszy)
+*/
+
+select
+	e.first_name ,
+	e.last_name ,
+	d.department_id ,
+	j.job_title 
+	from employees e join departments d on e.department_id = d.department_id 
+					 join jobs j on e.job_id = j.job_id 
