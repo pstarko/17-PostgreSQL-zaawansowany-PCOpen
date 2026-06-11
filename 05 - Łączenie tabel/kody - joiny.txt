@@ -1,0 +1,107 @@
+--Joiny
+
+select *
+	from employees, departments
+order by 1
+
+
+--wewnętrzne z kartezjana
+select 
+	e.last_name,
+	d.department_name
+	from employees e, departments d
+where 
+	e.department_id = d.department_id
+
+
+select * from departments
+
+
+create table t1 (id int, nazwa varchar(22))
+
+insert into t1 values (1,'a'),(null,'b')
+
+select * from t1 join departments d on t1.id = d.department_id 
+
+drop table t1
+
+
+--wewnętrzne
+select 
+	e.last_name,
+	d.department_name
+	from employees e JOIN departments d on e.department_id = d.department_id
+	
+	
+	
+select 
+	e.last_name,
+	d.department_name,
+	j.job_title 
+	from employees e JOIN departments d on e.department_id = d.department_id
+					 join jobs j on e.job_id  = j.job_id 
+					 
+--połączenie zewnętrze 
+select 
+	e.last_name,
+	d.department_name
+from employees e right join departments d on e.department_id=d.department_id
+
+
+select 
+	e.last_name,
+	d.department_name
+from employees e left join departments d on e.department_id=d.department_id		 
+
+		
+select 
+	e.last_name,
+	d.department_name
+from employees e full join departments d on e.department_id=d.department_id		
+
+
+--selfjoin
+explain
+select
+	e.employee_id, 
+	e.last_name,
+	b.employee_id,
+	b.last_name
+from employees e join employees b on e.employee_id=b.manager_id
+
+
+--antyjoin
+select 
+e.last_name,
+e.department_id,
+d.department_id
+from employees e join departments d 	on e.department_id != d.department_id
+order by 1,3
+
+--połączenia wierszowe
+select department_id from employees e 
+union
+Select department_id from departments d 
+
+select department_id from employees e 
+union all
+Select department_id from departments d 
+
+select department_id from employees e 
+intersect
+select department_id from departments d
+
+select department_id from departments d
+except
+select department_id from employees e 
+
+
+
+
+	
+	
+	
+	
+	
+	
+
