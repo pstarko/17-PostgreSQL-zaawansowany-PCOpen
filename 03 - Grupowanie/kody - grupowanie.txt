@@ -1,0 +1,75 @@
+--Grupowanie
+
+select
+	min(salary) min,
+	max(salary) max,
+	avg(salary) avg,
+	sum(salary) sum,
+	count(*) count
+from employees
+
+
+select
+	count(*) count,
+	count(1) count_1,
+	count('dzik jest dziki'),
+	count(employee_id),
+	count(commission_pct),
+	min(commission_pct),
+	count(coalesce(commission_pct,0))
+from employees
+
+select
+	department_id,
+	sum(salary) sum
+from employees
+group by 
+   department_id
+
+   
+select
+	department_id,
+	job_id,
+	sum(salary) sum
+from employees
+group by 
+   department_id,
+   job_id
+order by 1
+
+select
+	department_id,
+	sum(salary) sum
+from employees
+where department_id > 50
+group by 
+   department_id
+   
+select
+	department_id,
+	sum(salary) sum
+from employees
+group by 
+   department_id
+having 
+	sum(salary) > 20000
+	
+	
+select
+	department_id,
+	sum(salary) sum
+from employees
+where 
+	sum(salary) > 20000	
+group by 
+   department_id
+
+select
+	department_id,
+	sum(salary) sum
+from employees
+where department_id > 50
+group by 
+   department_id
+having
+	sum(salary) > 20000
