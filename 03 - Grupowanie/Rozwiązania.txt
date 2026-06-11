@@ -12,7 +12,7 @@ select
 */
 select
 	job_id,
-	avg(salary)
+	avg(salary) srednia
 	from employees
 where
 	department_id not in (10, 20, 30)
