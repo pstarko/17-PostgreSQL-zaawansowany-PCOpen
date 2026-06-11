@@ -26,3 +26,31 @@ FROM customers c
 JOIN orders o ON c.customer_id = o.customer_id;  
 
 select * from customer_orders_masked
+
+
+--3. Ćwiczenie z widokami zmaterializowanymi
+--1. Raport sprzedaży dziennej:
+
+CREATE MATERIALIZED VIEW daily_sales_summary 
+AS  
+SELECT order_date, SUM(total_amount) AS daily_sales  
+FROM orders  
+GROUP BY order_date  
+ORDER BY order_date;  
+
+
+
+--2. Dodaj nowe zamówienie i odśwież dane:
+
+INSERT INTO orders (customer_id, order_date, total_amount)  
+VALUES (1, '2025-09-05', 999.00);  
+
+
+select * from daily_sales_summary
+
+REFRESH MATERIALIZED VIEW daily_sales_summary;
+
+SELECT order_date, SUM(total_amount) AS daily_sales  
+FROM orders  
+GROUP BY order_date  
+ORDER BY order_date;  
