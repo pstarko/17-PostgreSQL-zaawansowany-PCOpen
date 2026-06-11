@@ -1,0 +1,40 @@
+----1. Stwórz bazę danych
+
+CREATE DATABASE warsztat_sql;
+
+
+--2. Dodaj tabelę produkty
+CREATE TABLE produkty (
+    id SERIAL PRIMARY KEY,
+    nazwa VARCHAR(100) NOT NULL,
+    cena NUMERIC(10,2),
+    ilosc INT DEFAULT 0
+);
+
+--3,4,5 Zmodyfikuj kolumy
+ALTER TABLE produkty
+ADD COLUMN opis TEXT;
+
+ALTER TABLE produkty
+ALTER COLUMN cena TYPE FLOAT;
+
+ALTER TABLE produkty
+DROP COLUMN opis;
+
+--6.
+INSERT INTO produkty (nazwa, cena, ilosc)
+VALUES
+('Jabłko', 1.50, 100),
+('Gruszka', 2.00, 50),
+('Banan', 1.20, 80);
+
+select * from produkty
+
+--7
+UPDATE produkty
+SET cena = cena * 1.10
+WHERE nazwa = 'Banan';
+
+--8
+DELETE FROM produkty
+WHERE ilosc < 10;
