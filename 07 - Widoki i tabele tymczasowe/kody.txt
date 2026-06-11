@@ -1,0 +1,93 @@
+create or replace view v_dept_20
+as
+select
+	e.last_name,
+	e.salary,
+	d.department_name,
+	j.job_title
+from employees e join departments d on e.department_id = d.department_id 
+		join jobs j on e.job_id = j.job_id 
+where e.department_id = 20
+
+
+
+explain
+select * from v_dept_20;
+
+create table a1 as
+select
+	e.last_name,
+	e.salary,
+	d.department_name,
+	j.job_title
+from employees e join departments d on e.department_id = d.department_id 
+		join jobs j on e.job_id = j.job_id 
+where e.department_id = 20
+
+explain
+select * from a1;
+
+drop table a1;
+
+
+create materialized view mv_sum_dept
+as
+select
+	d.department_name,
+	sum(salary + (salary * coalesce(commission_pct,0))) dept_salary
+from employees e join departments d on e.department_id = d.department_id 
+group by d.department_name
+
+
+explain
+select * from mv_sum_dept;
+
+create table a1 as
+select
+	d.department_name,
+	sum(salary + (salary * coalesce(commission_pct,0))) dept_salary
+from employees e join departments d on e.department_id = d.department_id 
+group by d.department_name
+
+create materialized view mv_a1
+as
+select
+	* from a1
+
+select * from mv_a1
+
+select * from a1
+
+update a1 set dept_salary = 0 where department_name = 'IT'
+	
+REFRESH MATERIALIZED VIEW mv_a1;
+
+
+CREATE TEMP TABLE temp_session_data (
+user_id INT,
+last_action TIMESTAMP) ON COMMIT DELETE ROWS;
+
+select * from temp_session_data
+
+
+begin
+	insert into temp_session_data values (1, current_timestamp)
+commit
+
+
+CREATE TEMP TABLE temp_session_data2 (
+user_id INT,
+last_action TIMESTAMP) ON COMMIT PRESERVE ROWS;
+
+select * from temp_session_data2
+
+insert into temp_session_data2 values (1, current_timestamp)
+
+
+
+
+
+
+
+
+
