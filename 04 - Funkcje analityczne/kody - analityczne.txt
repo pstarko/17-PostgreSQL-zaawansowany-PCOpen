@@ -1,0 +1,73 @@
+--funkcje analityczne
+
+select 
+	department_id,
+	sum(salary)
+from employees
+where department_id in (10,20,30)
+group by 
+	rollup(department_id)
+
+
+select 
+	department_id,
+	sum(salary)
+from employees
+where department_id in (10,20,30)
+group by 
+	cube(department_id)
+
+select 
+	department_id,
+	job_id,
+	sum(salary)
+from employees
+where department_id in (10,20,30)
+group by 
+	rollup(department_id, job_id)
+
+
+select 
+	department_id,
+	job_id,
+	sum(salary)
+from employees
+where department_id in (10,20,30)
+group by 
+	cube(department_id, job_id)
+	
+	
+select 
+	department_id,
+	job_id,
+	grouping(department_id) grouping_dept,
+	grouping(job_id) grouping_job,
+	sum(salary)
+from employees
+where department_id in (10,20,30)
+	or department_id is null
+group by 
+	cube(department_id, job_id)
+	
+		
+select 
+	department_id,
+	job_id,
+	sum(salary) sum
+from employees
+where department_id in (10,20,30)
+group by 
+	grouping sets((department_id), (department_id, job_id), (job_id))
+	
+select 
+	department_id,
+	job_id,
+	sum(salary) sum
+from employees
+where department_id in (10,20,30)
+group by 
+	grouping sets((department_id), (job_id), ())
+
+	
+	
+	
