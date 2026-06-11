@@ -1,0 +1,28 @@
+/*
+1. Pokaż sumę plac dla każdego departamentu z podsumowaniem dla sum większych od 8000 (10 wierszy) 
+2. Zamień NULL na wartość RESULT. Użyj funkcji GROUPING (10 wierszy)
+
+*/
+
+select
+	department_id,
+	sum(salary)
+	from employees
+group by 
+	rollup (department_id)
+having 
+	sum(salary) > 8000
+
+	
+select
+	case 
+		when grouping(department_id) = 1 then 'Result'
+		else department_id::varchar
+	end,
+	sum(salary),
+	grouping(department_id)
+	from employees
+group by 
+	rollup (department_id)
+having 
+	sum(salary) > 8000
