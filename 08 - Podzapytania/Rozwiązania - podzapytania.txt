@@ -43,3 +43,15 @@ where
 	hire_date = (select min(hire_date) from employees
 					where job_id = e.job_id )
 	and job_id = 'FI_ACCOUNT'
+
+select
+	first_name ,
+	last_name ,
+	hire_date,
+	job_id 
+	from employees e
+where
+	(job_id, hire_date) = (select job_id, min(hire_date) from employees
+								where job_id = 'FI_ACCOUNT'
+								group by job_id)
+		
