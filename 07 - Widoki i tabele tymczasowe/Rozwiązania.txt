@@ -1,0 +1,78 @@
+CREATE TABLE customers ( customer_id SERIAL PRIMARY KEY, name TEXT, city TEXT ); 
+
+CREATE TABLE orders ( order_id SERIAL PRIMARY KEY, customer_id INT REFERENCES customers(customer_id), order_date 
+DATE, total_amount NUMERIC(10,2) ); 
+
+
+INSERT INTO customers (name, city) VALUES ('Jan Kowalski', 'Warszawa'), ('Anna Nowak', 'Kraków'), ('Piotr Iksiński', 'Gdańsk'); 
+
+INSERT INTO orders (customer_id, order_date, total_amount) VALUES (1, '2025-09-01', 120.50), 
+(1, '2025-09-02', 350.00), (2, '2025-09-03', 200.00), (3, '2025-09-03', 560.00), (2, '2025-09-04', 140.00);
+
+--2.1
+/*1.	Prosty widok łączący klientów i zamówienia:*//
+
+CREATE VIEW customer_orders AS  
+SELECT c.name, c.city, o.order_id, o.total_amount  
+FROM customers c  
+JOIN orders o ON c.customer_id = o.customer_id;  
+
+
+--2.2
+/*2.	Widok filtrujący zamówienia > 200 zł:*/
+CREATE VIEW orders_above_200 AS
+SELECT * FROM orders WHERE total_amount > 200;
+
+INSERT INTO orders_above_200 (customer_id, order_date, total_amount) VALUES  (1, '2026-09-01', 120)
+
+
+--2.3
+CREATE VIEW customer_orders_masked AS  
+SELECT c.name, o.order_id, '[ukryto]' AS total_amount  
+FROM customers c  
+JOIN orders o ON c.customer_id = o.customer_id;  
+
+--3.1
+CREATE MATERIALIZED VIEW daily_sales_summary AS  
+SELECT order_date, SUM(total_amount) AS daily_sales  
+FROM orders  
+GROUP BY order_date  
+ORDER BY order_date;  
+
+INSERT INTO orders (customer_id, order_date, total_amount)  
+VALUES (1, '2025-09-05', 500.00);  
+
+
+select * from daily_sales_summary
+
+REFRESH MATERIALIZED VIEW daily_sales_summary;  
+
+--4.1
+CREATE TEMP TABLE temp_recent_orders AS  
+SELECT * FROM orders WHERE order_date >= '2025-09-03';  
+
+
+--4.2
+update temp_recent_orders set total_amount = total_amount * 1.1
+
+select * from temp_recent_orders
+
+
+--5.2
+CREATE MATERIALIZED VIEW sales_by_city AS  
+SELECT city, SUM(total_amount) AS total_sales  
+FROM customer_orders  
+GROUP BY city;  
+
+--5.3
+CREATE TEMP TABLE temp_warsaw_sales AS  
+SELECT * FROM sales_by_city WHERE city = 'Warszawa';  
+
+--5.4
+create temp table temp_warsaw_sales_plus_15
+as
+SELECT city, total_sales, total_sales * 1.15 AS forecast  
+FROM temp_warsaw_sales;  
+
+
+select * from temp_warsaw_sales_plus_15

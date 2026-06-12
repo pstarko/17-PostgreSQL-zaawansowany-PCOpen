@@ -1,4 +1,4 @@
-----1. Stwórz bazę danych
+--1. Stwórz bazę danych
 
 CREATE DATABASE warsztat_sql;
 
