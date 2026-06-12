@@ -69,4 +69,21 @@ select
 		group by d.department_name ) t1
 
 
+/*
+5. Pokaż najlepiej zarabiającego pracownika w każdym mieście (7 wierszy) 
+*/
+select 
+	t1.last_name, 
+	t1.city 
+	from (
+		select 
+				e.last_name,
+				l.city,
+				rank() over (partition by l.city order by salary DESC) ranking
+				from employees e join departments d on e.department_id=d.department_id
+								 join locations l on d.location_id = l.location_id ) t1
+where 
+	t1.ranking = 1
+
+
 
