@@ -53,6 +53,10 @@ select
 	t1.*,
 	case
 		when t1.pr = 0 then 'Departament z największą ilością pracowników'
+		when t1.ilosc_pracownikow  = 
+			(select min(t2.ilosc) from 
+				(select count(employee_id) ilosc from employees group by department_id) t2) 
+			then 'Departament z najmniejszą ilością pracowników'
 		when t1.pr <> 0 then t1.pr || '% departamentów z większą ilością pracowników'
 		else '---'
 	end	
@@ -63,3 +67,6 @@ select
 				percent_rank() over (order by count(e.employee_id) desc) * 100 pr
 		        from employees e join departments d on e.department_id=d.department_id
 		group by d.department_name ) t1
+
+
+
