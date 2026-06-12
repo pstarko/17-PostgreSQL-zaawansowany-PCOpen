@@ -1,0 +1,162 @@
+
+select 
+	first_name,
+	last_name,
+	department_id 
+from employees 
+where
+	department_id =
+		(select department_id from departments 
+		 	where department_name = 'Shipping')
+
+
+ 	
+select 
+	first_name,
+	last_name,
+	e.department_id 
+from employees e join departments d on e.department_id = d.department_id 
+where d.department_name = 'Shipping'
+
+
+select 
+	first_name,
+	last_name,
+	department_id 
+from employees 
+where
+department_id = 
+	(select department_id from departments 
+		where department_name in ('Shipping','Administration'))
+
+
+select 
+	first_name,
+	last_name,
+	department_id 
+from employees 
+where
+department_id in
+	(select department_id from departments 
+		where department_name in ('Shipping','Administration'))
+		
+		
+--ANY, ALL	
+explain	
+select 
+	first_name,
+	last_name,
+	salary,
+	department_id
+from employees
+where salary > ANY (select salary from employees
+						where department_id = 20)
+
+explain						
+select 
+	first_name,
+	last_name,
+	salary,
+	department_id
+from employees
+where salary > (select min(salary) from employees
+						where department_id = 20)						
+						
+explain	
+select 
+	first_name,
+	last_name,
+	salary,
+	department_id
+from employees
+where salary > ALL (select salary from employees
+						where department_id = 20)
+
+explain						
+select 
+	first_name,
+	last_name,
+	salary,
+	department_id
+from employees
+where salary > (select max(salary) from employees
+						where department_id = 20)							
+						
+
+--korelacja
+explain
+select 
+	first_name,
+	last_name,
+	salary,
+	department_id
+from employees e
+where salary > (select avg(salary) from employees
+					where department_id = e.department_id)
+
+--EXISTS, NOT EXISTS
+select 
+	department_name
+from departments d
+where 
+	EXISTS (select 1 from employees
+				where department_id = d.department_id )
+
+select 
+	department_name
+from departments d
+where 
+	not EXISTS (select 1 from employees
+				where department_id = d.department_id )
+
+--table derrived	
+select 
+	first_name,
+	last_name,
+	salary + (salary * coalesce(commission_pct,0)) full_salary
+from employees e
+where full_salary > 5000
+
+explain
+select
+	t1.*
+	from (
+		select 
+			first_name,
+			last_name,
+			salary + (salary * coalesce(commission_pct,0)) full_salary
+		from employees e ) t1
+where t1.full_salary > 5000					
+					
+explain		
+select 
+	first_name,
+	last_name,
+	salary + (salary * coalesce(commission_pct,0)) full_salary
+from employees e 
+where
+	salary + (salary * coalesce(commission_pct,0)) > 5000
+	
+--column derrived
+explain
+select 
+	first_name,
+	last_name,
+	(select department_name from departments where department_id = e.department_id) dep_name
+from employees e
+
+select
+	e.last_name,
+	e.salary
+from employees e
+where
+(department_id, salary) in 
+			(select department_id, max(salary) 
+				from employees
+				group by department_id)
+
+
+	
+						
+						
+		
