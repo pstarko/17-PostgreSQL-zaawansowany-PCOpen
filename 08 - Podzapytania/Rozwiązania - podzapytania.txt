@@ -1,0 +1,12 @@
+/*
+1. Wyświetl nazwiska i stanowiska pracowników pracujących w tym samym dziale co pracownik o nazwisku Miller (5 wierszy)
+*/
+
+select
+	first_name,
+	last_name,
+	(select job_title from jobs j where e.job_id = j.job_id ) jt
+	from employees e
+where
+	department_id = (select department_id from employees
+						where last_name = 'Miller')
