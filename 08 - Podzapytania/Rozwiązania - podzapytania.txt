@@ -54,4 +54,42 @@ where
 	(job_id, hire_date) = (select job_id, min(hire_date) from employees
 								where job_id = 'FI_ACCOUNT'
 								group by job_id)
+
+
+
+/*
+3. Zobacz najdłużej pracujących pracowników każdego działu. (12 wierszy)
+*/
+explain
+select 	
+	last_name,
+	hire_Date,
+	department_id,
+	(select department_name from departments d where e.department_id = d.department_id ) dn
+	from employees e
+where 
+	(department_id, hire_date) in (select department_id, min(hire_date) from employees
+									group by department_id)
+	
+explain
+select 	
+	last_name,
+	hire_Date,
+	department_id,
+	(select department_name from departments d where e.department_id = d.department_id ) dn
+	from employees e
+where 
+	hire_date in (select min(hire_date) from employees
+					where department_id = e.department_id )
+					
+explain
+select 	
+	last_name,
+	hire_Date,
+	d.department_id,
+	d.department_name
+	from employees e join departments d on e.department_id = d.department_id
+where 
+	hire_date = (select min(hire_date) from employees
+					where department_id = e.department_id )
 		
