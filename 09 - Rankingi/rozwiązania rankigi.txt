@@ -87,3 +87,21 @@ where
 
 
 
+/*
+7. Pokaż najlepiej i najgorzej zarabiającego pracownika. Wykorzystaj funkcję rankingową i operator UNION ALL (2 wiersze)
+*/
+select 
+	t1.last_name, 
+	t1.salary  from (
+					select 
+						last_name,
+						salary,
+						rank() over (order by salary desc) rk
+						from employees e
+					union all
+					select 
+						last_name,
+						salary,
+						rank() over (order by salary) rk
+						from employees e ) t1
+where t1.rk =1
