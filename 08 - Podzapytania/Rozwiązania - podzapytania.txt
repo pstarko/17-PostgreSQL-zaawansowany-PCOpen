@@ -92,4 +92,28 @@ select
 where 
 	hire_date = (select min(hire_date) from employees
 					where department_id = e.department_id )
+
+
+/*
+4. Wyświetlaj te nazwy stanowisk, w których nie zatrudniono nikogo z działu
+MARKETING. Wykorzystaj podzapytanie w podzapytaniu (17 wierszy)
+*/
+explain
+select
+	*
+	from jobs
+where
+	job_id in (select job_id from employees e 
+				where department_id not in (select department_id from departments
+												where department_name = 'Marketing'))
+												
+												
+explain
+select
+	*
+	from jobs
+where
+	job_id in (select distinct job_id from employees e 
+				where department_id not in (select department_id from departments
+												where department_name = 'Marketing'))
 		
